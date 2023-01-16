@@ -39,8 +39,30 @@ shoe_list = []
 def read_shoes_data():
     try:
         with open("inventory.txt", "r", encoding="utf-8") as rfile:
-            for line in rfile:
-                print(line)
+            lines = rfile.readlines() 
+            for index, line in enumerate(lines):
+                # skips the first line of the inventory.txt file.
+                if index == 0:
+                    pass
+                else:
+                    # get each word of each line and add them 
+                    # to their respectively variable
+                    shoe_data = line.split(",")
+                    for index, data in enumerate(shoe_data):
+                        if index == 0:
+                            country = data  # get the country of each product
+                        elif index == 1:
+                            code = data  # get the code of each product
+                        elif index == 2:
+                            product = data  # get the name of each product
+                        elif index == 3:
+                            cost = data  # get the code of each product
+                        elif index == 4:
+                            quantity = data  # get the quantity of each product
+                    # create an instance of Shoe class and
+                    # append it to the shoe_list list
+                    shoe = Shoe(country, code, product, cost, quantity)
+                    shoe_list.append(shoe)
     except Exception as error:
         print("Error:", error)
     '''
@@ -79,8 +101,8 @@ def re_stock():
 def search_shoe():
     pass
     '''
-     This function will search for a shoe from the list
-     using the shoe code and return this object so that it will be printed.
+    This function will search for a shoe from the list
+    using the shoe code and return this object so that it will be printed.
     '''
 
 def value_per_item():
