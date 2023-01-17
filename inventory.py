@@ -26,9 +26,9 @@ class Shoe:
 
     def __str__(self):
         """Constructor that returns a string representation of the Shoe class."""
-        return f"Country: \t{self.country} \nCode: \t\t{self.code} \nProduct: \t{self.product} \
-                \nCost ($): \t{self.cost} \nQuantity: \t{self.quantity}"
-
+        return f"{'-' * 37} \n {'Country:':>11s} {' ' * 4} {self.country:<15s} \n{'Code:':>12s} {' ' * 4} \
+{self.code:<15s} \n {'Product:':>11s} {' ' * 4} {self.product:<20s} \n {'Cost ($):':>11s} {' ' * 4} {self.cost:<10s}\
+ \n {'Quantity:':>11s} {' ' * 4} {self.quantity}".strip()
 
 #=============Shoe list===========
 '''
@@ -81,7 +81,17 @@ def capture_shoes():
     '''
 
 def view_all():
-    pass
+    try:
+        read_shoes_data()
+        print(f"{'LIST OF ALL SHOES AVAILABLES':^37s}")
+        print("")
+        for shoe in shoe_list:
+            print(shoe)
+        print(f"{'-' * 37}")
+        print("")
+        print(f"{'END':^37s}")
+    except Exception as error:
+        print("Error:", error)
     '''
     This function will iterate over the shoes list and
     print the details of the shoes returned from the __str__
@@ -125,3 +135,6 @@ def highest_qty():
 Create a menu that executes each function above.
 This menu should be inside the while loop. Be creative!
 '''
+
+
+view_all()
