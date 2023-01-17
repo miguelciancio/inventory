@@ -109,8 +109,8 @@ def re_stock():
     #  get the index from minimum quantity number of the list
     #  in order to locate the object on shoe_list
     min_quantity_shoe_index = 0
-    for index, num in enumerate(quantity_of_shoe_list):
-        if num == min(quantity_of_shoe_list):
+    for index, number_shoe_list in enumerate(quantity_of_shoe_list):
+        if number_shoe_list == min(quantity_of_shoe_list):
             min_quantity_shoe_index = index
             break
     
@@ -161,17 +161,16 @@ def re_stock():
                 else:
                     print("\nInvalid Option! Try again later!")
     '''
-    LOGIC IS PRETTY MUCH DONE!!! JUST NEED TO WORK ON THE TRY-EXCEPTS ERRORS!!!!
+    LOGIC IS PRETTY MUCH DONE!!! JUST NEED TO REVISE ERROR HANDLING!!!!
     '''
 
 def search_shoe(code):
-    read_shoes_data()
+    read_shoes_data()  #  Initialize shoe_list.
     for shoe in shoe_list:
-        if code == shoe.code:
-            return shoe
+        if code == shoe.code:  #  Get the shoe according to its unique code.
+            return shoe  #  Return the shoe object.
     '''
-    This function will search for a shoe from the list
-    using the shoe code and return this object so that it will be printed.
+    LOGIC IS PRETTY MUCH DONE! NEED TO REVISA ERROR HANDLING!
     '''
 
 def value_per_item():
@@ -183,10 +182,24 @@ def value_per_item():
     '''
 
 def highest_qty():
-    pass
+    read_shoes_data()  #  Initialize shoe_list.
+    quantity_of_shoe_list = []  #  variable that will receive all value
+    for shoe in shoe_list:
+        quantity_of_shoe_list.append(int(shoe.quantity.strip()))
+    
+    max_quantity_shoe_index = 0
+    for index, number_quantity_shoe_list in enumerate(quantity_of_shoe_list):
+        if number_quantity_shoe_list == max(quantity_of_shoe_list):
+            max_quantity_shoe_index = index
+
+    for index, shoe in enumerate(shoe_list):
+        if index == max_quantity_shoe_index:
+            print(f"{'Wonderful Shoe For Sale':^50s}")
+            print(f"{'-' * 50}")
+            print(f"{shoe.product.strip().title()} for only £{shoe.cost.strip()},00.\nDo not loose this opportunity!")
+            print(f"Offer available only in {shoe.country.title()}.")
     '''
-    Write code to determine the product with the highest quantity and
-    print this shoe as being for sale.
+    LOGIC IS PRETTY MUCH DONE! NEED TO REVISE ERROR HANDLING!
     '''
 
 #==========Main Menu=============
@@ -194,3 +207,4 @@ def highest_qty():
 Create a menu that executes each function above.
 This menu should be inside the while loop. Be creative!
 '''
+highest_qty()
