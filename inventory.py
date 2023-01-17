@@ -207,4 +207,4 @@ def highest_qty():
 Create a menu that executes each function above.
 This menu should be inside the while loop. Be creative!
 '''
-highest_qty()
+view_all()
