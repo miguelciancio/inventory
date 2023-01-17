@@ -164,8 +164,11 @@ def re_stock():
     LOGIC IS PRETTY MUCH DONE!!! JUST NEED TO WORK ON THE TRY-EXCEPTS ERRORS!!!!
     '''
 
-def search_shoe():
-    pass
+def search_shoe(code):
+    read_shoes_data()
+    for shoe in shoe_list:
+        if code == shoe.code:
+            return shoe
     '''
     This function will search for a shoe from the list
     using the shoe code and return this object so that it will be printed.
@@ -191,6 +194,3 @@ def highest_qty():
 Create a menu that executes each function above.
 This menu should be inside the while loop. Be creative!
 '''
-
-
-re_stock()
