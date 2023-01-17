@@ -100,12 +100,68 @@ def view_all():
     '''
 
 def re_stock():
-    pass
+    quantity_of_shoe_list = []  # list that will receive all quantity numbers of each shoes inside the shoe_list.
+    read_shoes_data()
+    #  gets numbers all quantity of each shoes
+    for shoe in shoe_list:
+        quantity_of_shoe_list.append(int(shoe.quantity.strip()))
+    
+    #  get the index from minimum quantity number of the list
+    #  in order to locate the object on shoe_list
+    min_quantity_shoe_index = 0
+    for index, num in enumerate(quantity_of_shoe_list):
+        if num == min(quantity_of_shoe_list):
+            min_quantity_shoe_index = index
+            break
+    
+    #  Display all relevant data about the shoe with
+    #  the lowest quantity in stock on screen.
+    print(f"{'SHOE LOWEST STOCK':^37s}")
+    for index, shoe in enumerate(shoe_list):
+        if index == min_quantity_shoe_index:
+            print(shoe)
+
+            #  ask user if wants to increase this number.
+            #  if yes, proceed with the operation.
+            #  Otherwise, leave the program
+            while True:
+                user_input = input("\nWould like to increase the currently \nstock level of this product (y/n)? ").strip().lower()
+                if user_input == "y":
+                    try:
+                        new_quantity = int(input("\nEnter new number of stock: "))  # new quantity number.
+                        shoe.quantity = new_quantity  #  change the quantity of the object which is inside shoe_list.
+                        new_shoe = shoe  #  grab this object in order to change the contents inside inventory.txt later.
+                        
+                        #  Display message saying the stock has been updated.
+                        print(f"\n{'SHOE STOCK UPDATED:':^37s}")
+                        print(shoe)
+                        #  Here, we are going to modify the specific line that has been updated
+                        #  inside the inventory.txt file.
+                        #  First, we open the file to grab all the lines inside there.
+                        with open("inventory.txt", "r", encoding="utf-8") as rfile:
+                            get_all_lines = rfile.readlines() 
+
+                        #  Finally, open the file again to change the content that the user wants to.
+                        with open("inventory.txt", "w") as wfile:
+                            for index, line in enumerate(get_all_lines):
+                                #  Check if the index of the line mathces with the one that we get
+                                #  from the list which has all quantity numbers.
+                                #  If matches, then update the line with the new value.
+                                #  Otherwise, just write the same line againn.
+                                if index - 1 == min_quantity_shoe_index:
+                                    wfile.writelines(f"{new_shoe.country}, {new_shoe.code}, {new_shoe.product}, {new_shoe.cost}, {new_shoe.quantity}\n") 
+                                else:
+                                    wfile.writelines(line)
+                        break
+                    except ValueError as error:
+                        print("Error:", error)
+                elif user_input == "n":
+                    print("\nGoodbye!")
+                    break
+                else:
+                    print("\nInvalid Option! Try again later!")
     '''
-    This function will find the shoe object with the lowest quantity,
-    which is the shoes that need to be re-stocked. Ask the user if they
-    want to add this quantity of shoes and then update it.
-    This quantity should be updated on the file for this shoe.
+    LOGIC IS PRETTY MUCH DONE!!! JUST NEED TO WORK ON THE TRY-EXCEPTS ERRORS!!!!
     '''
 
 def search_shoe():
@@ -137,4 +193,4 @@ This menu should be inside the while loop. Be creative!
 '''
 
 
-view_all()
+re_stock()
