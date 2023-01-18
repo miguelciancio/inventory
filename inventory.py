@@ -8,14 +8,7 @@ class Shoe:
         self.product = product
         self.cost = cost
         self.quantity = quantity
-        '''
-        In this function, you must initialise the following attributes:
-            ● country,
-            ● code,
-            ● product,
-            ● cost, and
-            ● quantity.
-        '''
+        
     def get_cost(self):
         """Simple function that return the cost value of the shoe."""
         return self.cost
@@ -37,8 +30,18 @@ The list will be used to store a list of objects of shoes.
 shoe_list = []
 #==========Functions outside the class==============
 def read_shoes_data():
+    """Function that opens inventory.txt file, read the data stored inside it to use them to create a shoes object which will be appended into the shoe_list list.
+    
+    Attributes
+    ----------
+        None
+
+    Return
+    ------
+        None
+     """
     try:
-        with open("inventory.txt", "r", encoding="utf-8") as rfile:
+        with open("inventori.txt", "r", encoding="utf-8") as rfile:
             lines = rfile.readlines() 
             for index, line in enumerate(lines):
                 # skips the first line of the inventory.txt file.
@@ -64,22 +67,38 @@ def read_shoes_data():
                     shoe = Shoe(country, code, product, cost, quantity)
                     shoe_list.append(shoe)
     except Exception as error:
-        print("Error:", error)
-    '''
-    This function will open the file inventory.txt
-    and read the data from this file, then create a shoes object with this data
-    and append this object into the shoes list. One line in this file represents
-    data to create one object of shoes. You must use the try-except in this function
-    for error handling. Remember to skip the first line using your code.
-    '''
-def capture_shoes():
-    #  Inputs thhat will be used to create the new shoe object
-    country_of_shoe_input = input("Country: ")
-    code_of_shoe_input = input("Code: ")
-    product_of_shoe_input = input("Product: ")
-    cost_of_shoe_input = int(input("Cost: "))
-    quantity_of_shoe_input = int(input("Quantity: "))
+        print(error)
 
+def capture_shoes():
+    """Function that creates a new shoes objects by getting five inputs from user. Append this new object into inventory.txt file.
+    Print out on screen message saying that the new shoe was registered.
+    
+    Attributes
+    ----------
+        None
+        
+    Return
+    ------
+        None
+    """
+    #  Inputs thhat will be used to create the new shoe object
+    while True:
+        try:
+            print(f"\n{'REGISTER NEW SHOE':^50s}")
+            print(f"{'-' * 50}")    
+            country_of_shoe_input = input("\nCountry: \t")
+            code_of_shoe_input = input("Code: \t\t")
+            product_of_shoe_input = input("Product: \t")
+            try:
+                cost_of_shoe_input = int(input("Cost: \t\t"))
+                quantity_of_shoe_input = int(input("Quantity: \t"))
+                break
+            except ValueError as error:
+                print("Error:", error)
+        except Exception as error:
+            print("Error:", error)
+        
+    
     new_shoe_object = Shoe(
         country_of_shoe_input, 
         code_of_shoe_input, 
@@ -88,18 +107,24 @@ def capture_shoes():
         quantity_of_shoe_input
     )
 
-    with open("inventory.txt", "a") as afile:
-        afile.write(f"\n{new_shoe_object.country},{new_shoe_object.code},{new_shoe_object.product},{new_shoe_object.cost},{new_shoe_object.quantity}")
+    try:
+        with open("inventory.txt", "a") as afile:
+            afile.write(f"\n{new_shoe_object.country},{new_shoe_object.code},{new_shoe_object.product},{new_shoe_object.cost},{new_shoe_object.quantity}")
+    except FileNotFoundError:
+        print("Error: file not found!")
 
-    print("\nNew shoe registered!")
+    print(f"\n{'-' * 50}")
+    print(f"{'NEW SHOE REGISTERED!':^50s}\n")
+
     '''
     LOGIC IS PRETTY MUCH DONE - NEED TO REVISE ERROR HANDLING AND OUTPUT FORMATTING!!!
     '''
 
 def view_all():
     """Simple functoion that print out all shoes' contents inside inventore.txt file according to its __str__ magic function."""
-    try:
-        read_shoes_data()  #  Initialize shoe_list.
+    #try:
+    read_shoes_data()  #  Initialize shoe_list.
+    if read_shoes_data():
         print(f"\n{'LIST OF ALL SHOES AVAILABLES':^37s}")
         print("")
         for shoe in shoe_list:
@@ -107,8 +132,10 @@ def view_all():
         print(f"{'-' * 50}")
         print("")
         print(f"{'END':^50s}")
-    except SyntaxError as error:
-        print("Error:", error)
+    else:
+        pass
+    #except SyntaxError as error:
+        #print("Error:", error)
 
 def re_stock():
     global shoe_list
