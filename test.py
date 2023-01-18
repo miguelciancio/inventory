@@ -84,4 +84,4 @@ def view_all():
     by using Python's tabulate module.
     '''
 
-view_all()
+

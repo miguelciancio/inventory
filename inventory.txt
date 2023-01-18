@@ -22,4 +22,4 @@ Israel,SKU79084,Air Foamposite,2430,65
 China,SKU93222,Air Stab,1630,10
 South Korea,SKU66734,Hyperdunk,1899,54
 Australia,SKU71827,Zoom Hyperfuse,1400,15
-France,SKU20394,Eric Koston 1,2322,17
+France,SKU20394,Eric Koston 1,2322,1725,SKU56400,Air Max 200,675,25

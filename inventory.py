@@ -73,7 +73,23 @@ def read_shoes_data():
     for error handling. Remember to skip the first line using your code.
     '''
 def capture_shoes():
-    pass
+    #  Inputs thhat will be used to create the new shoe object
+    country_of_shoe_input = input("Country: ")
+    code_of_shoe_input = input("Code: ")
+    product_of_shoe_input = input("Product: ")
+    cost_of_shoe_input = int(input("Cost: "))
+    quantity_of_shoe_input = int(input("Quantity: "))
+
+    new_shoe_object = Shoe(
+        country_of_shoe_input, 
+        code_of_shoe_input, 
+        product_of_shoe_input, 
+        cost_of_shoe_input, 
+        quantity_of_shoe_input
+    )
+
+    with open("inventory.txt", "a") as afile:
+        afile.write(f"\n{new_shoe_object.country},{new_shoe_object.code},{new_shoe_object.product},{new_shoe_object.cost},{new_shoe_object.quantity}")
     '''
     This function will allow a user to capture data
     about a shoe and use this data to create a shoe object
@@ -207,4 +223,5 @@ def highest_qty():
 Create a menu that executes each function above.
 This menu should be inside the while loop. Be creative!
 '''
-view_all()
+
+capture_shoes()
