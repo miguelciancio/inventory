@@ -90,6 +90,8 @@ def capture_shoes():
 
     with open("inventory.txt", "a") as afile:
         afile.write(f"\n{new_shoe_object.country},{new_shoe_object.code},{new_shoe_object.product},{new_shoe_object.cost},{new_shoe_object.quantity}")
+
+    print("\nNew shoe registered!")
     '''
     LOGIC IS PRETTY MUCH DONE - NEED TO REVISE ERROR HANDLING AND OUTPUT FORMATTING!!!
     '''
@@ -98,23 +100,24 @@ def view_all():
     """Simple functoion that print out all shoes' contents inside inventore.txt file according to its __str__ magic function."""
     try:
         read_shoes_data()  #  Initialize shoe_list.
-        print(f"{'LIST OF ALL SHOES AVAILABLES':^37s}")
+        print(f"\n{'LIST OF ALL SHOES AVAILABLES':^37s}")
         print("")
         for shoe in shoe_list:
             print(shoe)
-        print(f"{'-' * 37}")
+        print(f"{'-' * 50}")
         print("")
-        print(f"{'END':^37s}")
-    except Exception as error:
+        print(f"{'END':^50s}")
+    except SyntaxError as error:
         print("Error:", error)
 
 def re_stock():
+    global shoe_list
     quantity_of_shoe_list = []  # list that will receive all quantity numbers of each shoes inside the shoe_list.
     read_shoes_data()
     #  gets numbers all quantity of each shoes
     for shoe in shoe_list:
         quantity_of_shoe_list.append(int(shoe.quantity.strip()))
-    
+
     #  get the index from minimum quantity number of the list
     #  in order to locate the object on shoe_list
     min_quantity_shoe_index = 0
@@ -122,7 +125,7 @@ def re_stock():
         if number_shoe_list == min(quantity_of_shoe_list):
             min_quantity_shoe_index = index
             break
-    
+
     #  Display all relevant data about the shoe with
     #  the lowest quantity in stock on screen.
     print(f"{'SHOE LOWEST STOCK':^37s}")
@@ -137,10 +140,9 @@ def re_stock():
                 user_input = input("\nWould like to increase the currently \nstock level of this product (y/n)? ").strip().lower()
                 if user_input == "y":
                     try:
-                        new_quantity = int(input("\nEnter new number of stock: "))  # new quantity number.
+                        new_quantity = input("\nEnter new number of stock: ")  # new quantity number.
                         shoe.quantity = new_quantity  #  change the quantity of the object which is inside shoe_list.
-                        new_shoe = shoe  #  grab this object in order to change the contents inside inventory.txt later.
-                        
+    
                         #  Display message saying the stock has been updated.
                         print(f"\n{'SHOE STOCK UPDATED:':^37s}")
                         print(shoe)
@@ -158,9 +160,10 @@ def re_stock():
                                 #  If matches, then update the line with the new value.
                                 #  Otherwise, just write the same line againn.
                                 if index - 1 == min_quantity_shoe_index:
-                                    wfile.writelines(f"{new_shoe.country}, {new_shoe.code}, {new_shoe.product}, {new_shoe.cost}, {new_shoe.quantity}\n") 
+                                    wfile.writelines(f"{shoe.country},{shoe.code},{shoe.product},{shoe.cost},{shoe.quantity}\n") 
                                 else:
                                     wfile.writelines(line)
+                        shoe_list = []  #  Clear the shoe_list in order to not duplicate its values
                         break
                     except Exception as error:
                         print("Error:", error)
@@ -169,6 +172,8 @@ def re_stock():
                     break
                 else:
                     print("\nInvalid Option! Try again later!")
+        else:
+            pass
     '''
     LOGIC IS PRETTY MUCH DONE!!! JUST NEED TO REVISE ERROR HANDLING!!!!
     '''
@@ -176,9 +181,15 @@ def re_stock():
 def search_shoe(code):
     """Simple function that return the shoe object according to its unique code number."""
     read_shoes_data()  #  Initialize shoe_list.
+    is_shoe_code = False
     for shoe in shoe_list:
         if code == shoe.code:  #  Get the shoe according to its unique code.
+            is_shoe_code = True
             return shoe  #  Return the shoe object.
+    
+    if not is_shoe_code:
+        return (f"\nError: {code} not found! \nPlease, check to see if you entered the correct code!")
+
     '''
     LOGIC IS PRETTY MUCH DONE! NEED TO REVISA ERROR HANDLING!
     '''
@@ -189,7 +200,7 @@ def value_per_item():
     print(f"{'-' * 50}")
     for shoe in shoe_list:
         total_value = float(shoe.cost) * int(shoe.quantity)
-        print(f"\n{shoe.product:^20s} \t- \t£{total_value:,.2f}.")
+        print(f"{shoe.product:^20s} \t- \t£{total_value:,.2f}.")
     '''
     LOGIC IS PRETTY MUCH DONE - NEED TO REVISE ERROR HANDLING!!!!
     '''
@@ -221,4 +232,57 @@ Create a menu that executes each function above.
 This menu should be inside the while loop. Be creative!
 '''
 #  Menu that only will stop after user press button 7.
-while True
+while True:
+    try:
+        print(f"{'-' * 60}")
+        menu = int(input("""Please choose one of the options below:
+[1] To view all shoe in stock
+[2] To get the lowest shoe in stock that need be re-stocked
+[3] To view the highest shoe in stock
+[4] To see the total value of each shoe in stock
+[5] To register a new shoe in stock
+[6] To search a specific shoe in stock by its unique code number
+[7] To exit the program
+
+-> """))
+        #  Exit the program
+        if menu == 7:
+            print(f"{'-' * 50}")
+            print(f"{'Good-Bye!':^50s}")
+            exit()
+        
+        #  View all shoes in stock
+        elif menu == 1:
+            view_all()
+        
+        #  Get lowest shoe in stock and ask user if
+        #  wants to re-stock it or not
+        elif menu == 2:
+            re_stock()
+        
+        #  View highest shoe in stock
+        elif menu == 3:
+            highest_qty()
+        
+        #  See total value of each item on screen
+        elif menu == 4:
+            value_per_item()
+
+        #   Register a new shoe 
+        elif menu == 5:
+            capture_shoes()
+
+        #  Search specific shoe by its own code
+        elif menu == 6:
+            try:
+                wanted_shoe_code = input("\nEnter the code of the shoe you wanted to find: ").upper().strip()
+                wanted_shoe = search_shoe(wanted_shoe_code)
+                print(wanted_shoe)
+            except Exception as error:
+                print("Error:", error)
+        else:
+            print("\nInvalid Option! \nPlease, choose an option between 1 - 7.\n")
+    except TypeError and ValueError:
+        print("\nInvalid Option! \nPlease, choose an option between 1 - 7.\n")
+
+"""PROGRAM IS WORKING! NEED TO COMMENT AND FORMAT UNDER PEP-8 STANDARD!!!!!!!!"""
