@@ -91,14 +91,13 @@ def capture_shoes():
     with open("inventory.txt", "a") as afile:
         afile.write(f"\n{new_shoe_object.country},{new_shoe_object.code},{new_shoe_object.product},{new_shoe_object.cost},{new_shoe_object.quantity}")
     '''
-    This function will allow a user to capture data
-    about a shoe and use this data to create a shoe object
-    and append this object inside the shoe list.
+    LOGIC IS PRETTY MUCH DONE - NEED TO REVISE ERROR HANDLING AND OUTPUT FORMATTING!!!
     '''
 
 def view_all():
+    """Simple functoion that print out all shoes' contents inside inventore.txt file according to its __str__ magic function."""
     try:
-        read_shoes_data()
+        read_shoes_data()  #  Initialize shoe_list.
         print(f"{'LIST OF ALL SHOES AVAILABLES':^37s}")
         print("")
         for shoe in shoe_list:
@@ -108,12 +107,6 @@ def view_all():
         print(f"{'END':^37s}")
     except Exception as error:
         print("Error:", error)
-    '''
-    This function will iterate over the shoes list and
-    print the details of the shoes returned from the __str__
-    function. Optional: you can organise your data in a table format
-    by using Python's tabulate module.
-    '''
 
 def re_stock():
     quantity_of_shoe_list = []  # list that will receive all quantity numbers of each shoes inside the shoe_list.
@@ -169,7 +162,7 @@ def re_stock():
                                 else:
                                     wfile.writelines(line)
                         break
-                    except ValueError as error:
+                    except Exception as error:
                         print("Error:", error)
                 elif user_input == "n":
                     print("\nGoodbye!")
@@ -181,6 +174,7 @@ def re_stock():
     '''
 
 def search_shoe(code):
+    """Simple function that return the shoe object according to its unique code number."""
     read_shoes_data()  #  Initialize shoe_list.
     for shoe in shoe_list:
         if code == shoe.code:  #  Get the shoe according to its unique code.
@@ -190,11 +184,14 @@ def search_shoe(code):
     '''
 
 def value_per_item():
-    pass
+    read_shoes_data()
+    print(f"{'TOTAL VALUE OF EACH SHOE':^50s}")
+    print(f"{'-' * 50}")
+    for shoe in shoe_list:
+        total_value = float(shoe.cost) * int(shoe.quantity)
+        print(f"\n{shoe.product:^20s} \t- \t£{total_value:,.2f}.")
     '''
-    This function will calculate the total value for each item.
-    Please keep the formula for value in mind: value = cost * quantity.
-    Print this information on the console for all the shoes.
+    LOGIC IS PRETTY MUCH DONE - NEED TO REVISE ERROR HANDLING!!!!
     '''
 
 def highest_qty():
@@ -223,5 +220,5 @@ def highest_qty():
 Create a menu that executes each function above.
 This menu should be inside the while loop. Be creative!
 '''
-
-capture_shoes()
+#  Menu that only will stop after user press button 7.
+while True
