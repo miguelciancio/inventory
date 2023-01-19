@@ -1,4 +1,4 @@
-
+from tabulate import tabulate
 #========The beginning of the class==========
 class Shoe:
     """
@@ -58,9 +58,7 @@ class Shoe:
 
     def __str__(self):
         """Constructor that returns a string representation of the Shoe class."""
-        return f"{'-' * 37} \n {'Country:':>11s} {' ' * 4} {self.country:<15s} \n{'Code:':>12s} {' ' * 4} \
-{self.code:<15s} \n {'Product:':>11s} {' ' * 4} {self.product:<20s} \n {'Cost ($):':>11s} {' ' * 4} {self.cost:<10s}\
- \n {'Quantity:':>11s} {' ' * 4} {self.quantity}".strip()
+        return (f"{shoe.country}, {shoe.code}, {shoe.product}, {shoe.cost}, {shoe.quantity}")
 
 #=============Shoe list===========
 '''
@@ -157,13 +155,19 @@ def view_all():
     #  If it is not empty; print out its data.
     #  If it is empty; print out message saying this information.
     if shoe_list:
-        print(f"\n{'LIST OF ALL SHOES AVAILABLES':^50s}")
-        print("")
+        data_shoes_list = []  #  list that will receive another list with all data from each shoe.
+        shoe_unit_list = []  # list that will receive all data of each shoe.
         for shoe in shoe_list:
-            print(shoe)
-        print(f"{'-' * 50}")
-        print("")
-        print(f"{'END':^50s}")
+            shoe_unit_list.append(shoe.country)
+            shoe_unit_list.append(shoe.code)
+            shoe_unit_list.append(shoe.product)
+            shoe_unit_list.append(shoe.cost)
+            shoe_unit_list.append(shoe.quantity.strip())
+            data_shoes_list.append(shoe_unit_list)
+            shoe_unit_list = []  #  Clear the list in order to create a lists inside another list.
+        
+        # Print out nicely on screen to the user.
+        print(tabulate(data_shoes_list, headers=["Country", "Code", "Product", "Cost", "Quantity"]))
     else:
         print(f"\n{'LIST OF ALL SHOES AVAILABLES':^50s}")
         print("")
