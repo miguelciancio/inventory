@@ -80,22 +80,35 @@ def capture_shoes():
         None
     """
     #  Inputs thhat will be used to create the new shoe object
-    #  try-except block to get the correct values for cost and quantity of shoes.
+    #  try-except-else block to get the correct values for each data.
     while True:
+        print(f"\n{'REGISTER NEW SHOE':^50s}")
+        print(f"{'-' * 50}")    
         try:
-            print(f"\n{'REGISTER NEW SHOE':^50s}")
-            print(f"{'-' * 50}")    
-            country_of_shoe_input = input("\nCountry: \t")
-            code_of_shoe_input = input("Code: \t\t")
-            product_of_shoe_input = input("Product: \t")
+            country_of_shoe_input = input("\nCountry: \t").strip().capitalize()
+            if not country_of_shoe_input:
+                raise ValueError("Empty field. \nPlease enter the name of the country. \nEx.: England")
+   
+            code_of_shoe_input = input("Code: \t\t").strip().upper()
+            #  Condition to get the code exactly on this format: SKUNNNNN; where N == number.
+            if (not code_of_shoe_input or
+                len(code_of_shoe_input) != 8 or
+                code_of_shoe_input[:3] != "SKU" or
+                not code_of_shoe_input[3:].isdigit()):
+                raise ValueError("Empty field. \nPlease enter the code of the shoe. \nEx.: SKU00000")
+
+            product_of_shoe_input = input("Product: \t").strip().title()
+            if not product_of_shoe_input:
+                raise ValueError("Empty field. \nPlease enter the name of the shoe. \nEx.: Nike Air Max 200")
+        except ValueError as error:
+            print("\nERROR:", error)
+        else:
             try:
-                cost_of_shoe_input = int(input("Cost: \t\t"))
-                quantity_of_shoe_input = int(input("Quantity: \t"))
+                cost_of_shoe_input = int(input("Cost: \t\t").strip())
+                quantity_of_shoe_input = int(input("Quantity: \t").strip())
                 break
             except ValueError as error:
-                print("Error:", error)
-        except Exception as error:
-            print("Error:", error)
+                print("\nError:", error)
         
     #  Create new shoe object that will be appended on the inventory.txt file.
     new_shoe_object = Shoe(
@@ -114,7 +127,7 @@ def capture_shoes():
         print("ERROR:", error)
     else:
         print(f"\n{'-' * 50}")
-        print(f"{'NEW SHOE REGISTERED!':^50s}\n")
+        print(f"\n{'NEW SHOE REGISTERED!':^50s}\n")
 
 def view_all():
     """Simple function that print out all shoes' contents inside inventore.txt file according to its __str__ magic function.
@@ -234,7 +247,6 @@ def re_stock():
                         except Exception as error:
                             print("Error:", error)
                     elif user_input == "n":
-                        print("\nGoodbye!")
                         break
                     else:
                         print("\nInvalid Option! Try again later!")
@@ -399,5 +411,3 @@ while True:
                     print("Error:", error)
             else:
                 print("\nInvalid Option! \nPlease, choose an option between 1 - 7.\n")
-
-"""PROGRAM IS WORKING! NEED TO COMMENT AND FORMAT UNDER PEP-8 STANDARD!!!!!!!!"""
