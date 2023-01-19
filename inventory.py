@@ -217,6 +217,12 @@ def re_stock():
                     if user_input == "y":
                         try:
                             new_quantity = input("\nEnter new number of stock: ")  # new quantity number.
+                            if (not new_quantity or
+                                not new_quantity.isdigit()):
+                                raise ValueError("Value error. \nPlease enter a number. \nEx.: 50")
+                        except ValueError as error:
+                            print("\nERROR:", error)
+                        else:
                             shoe.quantity = new_quantity  #  change the quantity of the object which is inside shoe_list.
         
                             #  Display message saying the stock has been updated.
@@ -248,8 +254,6 @@ def re_stock():
 
                             shoe_list = []  #  Clear the shoe_list in order to not duplicate its values
                             break
-                        except Exception as error:
-                            print("Error:", error)
                     elif user_input == "n":
                         break
                     else:
