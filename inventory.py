@@ -1,8 +1,47 @@
 
 #========The beginning of the class==========
 class Shoe:
+    """
+    Class that has the objective to create a shoe object for XX Store.
+
+    Attributes
+    ----------
+    country : str
+        The country which the shoe is located.
+    code : str
+        The unique ID code number of the shoe.
+    product : str
+        The name of the shoe.
+    cost : str
+        The price number cost of the shoe.
+    quantity: str
+        The quantity number of the shoe currently in stock.
+
+    Methods
+    -------
+    get_cost()
+        Returns the cost value of the shoe.
+    get_quantity()
+        Returns the currently quantity value in stock of the shoe.
+    """
 
     def __init__(self, country, code, product, cost, quantity):
+        """
+        Constructos all the necessary attributes for the shoe object.
+
+        Parameters
+        ----------
+            country : str
+                The country which the shoe is located.
+            code : str
+                The unique ID code number of the shoe.
+            product : str
+                The name of the shoe.
+            cost : str
+                The price number cost of the shoe.
+            quantity: str
+                The quantity number of the shoe currently in stock.
+        """
         self.country = country
         self.code = code
         self.product = product
@@ -30,16 +69,7 @@ The list will be used to store a list of objects of shoes.
 shoe_list = []
 #==========Functions outside the class==============
 def read_shoes_data():
-    """Function that opens inventory.txt file, read the data stored inside it to use them to create a shoes object which will be appended into the shoe_list list.
-    
-    Attributes
-    ----------
-        None
-
-    Return
-    ------
-        None
-     """
+    """Function that opens inventory.txt file, read the data stored inside it to use them to create a shoes object which will be appended into the shoe_list list."""
     with open("inventory.txt", "r", encoding="utf-8") as rfile:
         lines = rfile.readlines()
     
@@ -70,14 +100,6 @@ def read_shoes_data():
 def capture_shoes():
     """Function that creates a new shoes objects by getting five inputs from user. Append this new object into inventory.txt file.
     Print out on screen message saying that the new shoe was registered.
-    
-    Attributes
-    ----------
-        None
-        
-    Return
-    ------
-        None
     """
     #  Inputs thhat will be used to create the new shoe object
     #  try-except-else block to get the correct values for each data.
@@ -130,16 +152,7 @@ def capture_shoes():
         print(f"\n{'NEW SHOE REGISTERED!':^50s}\n")
 
 def view_all():
-    """Simple function that print out all shoes' contents inside inventore.txt file according to its __str__ magic function.
-    
-    Attributes
-    ----------
-        None
-
-    Return
-    ------
-        None
-    """
+    """Simple function that print out all shoes' contents inside inventore.txt file according to its __str__ magic function."""
     #  Check whether shoe_list list it empty or not.
     #  If it is not empty; print out its data.
     #  If it is empty; print out message saying this information.
@@ -159,16 +172,7 @@ def view_all():
         print(f"{'END':^50s}")
 
 def re_stock():
-    """Function that get the shoe object with the lowest quantity in stock and ask to user if wants to increase the currently number of stock level.
-    
-    Attributes
-    ----------
-        None
-        
-    Return
-    ------
-        None
-    """
+    """Function that get the shoe object with the lowest quantity in stock and ask to user if wants to increase the currently number of stock level."""
     global shoe_list
     quantity_of_shoe_list = []  # list that will receive all quantity numbers of each shoes inside the shoe_list.
     
@@ -254,13 +258,13 @@ def re_stock():
 def search_shoe(code):
     """Simple function that return the shoe object according to its unique code number.
     
-    Attribute
-    ---------
+    Parameters
+    ----------
         code : str
             Unique code number of the item shoe.
     
-    Return
-    ------
+    Returns
+    -------
         shoe : obj
             shoe object from the shoe_list list.
         f-string message : str
@@ -277,16 +281,7 @@ def search_shoe(code):
         return (f"\nError: {code} not found! \nPlease, check to see if you entered the correct code!")
 
 def value_per_item():
-    """Function that print out to user the total value of each item by using the following formula: cost * quantity.
-
-    Attribute
-    ---------
-        None
-
-    Return
-    ------
-        None
-    """
+    """Function that print out to user the total value of each item by using the following formula: cost * quantity."""
     # If shoe_list list is not empty; print out the data.
     if shoe_list:
         print(f"{'TOTAL VALUE OF EACH SHOE':^50s}")
@@ -304,16 +299,7 @@ def value_per_item():
         print(f"{'END':^50s}")
 
 def highest_qty():
-    """Function that get the shoe with the highest number of stock and print out message saying like it was for sale.
-    
-    Attributes
-    ----------
-        None
-        
-    Return
-    ------
-        None
-    """
+    """Function that get the shoe with the highest number of stock and print out message saying like it was for sale."""
     #  Check if shoe_list list is empty or not.
     #  If not; execute the function.
     #  If it is; print out empty list message.
