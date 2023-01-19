@@ -40,34 +40,32 @@ def read_shoes_data():
     ------
         None
      """
-    try:
-        with open("inventori.txt", "r", encoding="utf-8") as rfile:
-            lines = rfile.readlines() 
-            for index, line in enumerate(lines):
-                # skips the first line of the inventory.txt file.
+    with open("inventory.txt", "r", encoding="utf-8") as rfile:
+        lines = rfile.readlines()
+    
+    for index, line in enumerate(lines):
+        # skips the first line of the inventory.txt file.
+        if index == 0:
+            pass
+        else:
+            # get each word of each line and add them 
+            # to their respectively variable
+            shoe_data = line.split(",")
+            for index, data in enumerate(shoe_data):
                 if index == 0:
-                    pass
-                else:
-                    # get each word of each line and add them 
-                    # to their respectively variable
-                    shoe_data = line.split(",")
-                    for index, data in enumerate(shoe_data):
-                        if index == 0:
-                            country = data  # get the country of each product
-                        elif index == 1:
-                            code = data  # get the code of each product
-                        elif index == 2:
-                            product = data  # get the name of each product
-                        elif index == 3:
-                            cost = data  # get the code of each product
-                        elif index == 4:
-                            quantity = data  # get the quantity of each product
-                    # create an instance of Shoe class and
-                    # append it to the shoe_list list
-                    shoe = Shoe(country, code, product, cost, quantity)
-                    shoe_list.append(shoe)
-    except Exception as error:
-        print(error)
+                    country = data  # get the country of each product
+                elif index == 1:
+                    code = data  # get the code of each product
+                elif index == 2:
+                    product = data  # get the name of each product
+                elif index == 3:
+                    cost = data  # get the code of each product
+                elif index == 4:
+                    quantity = data  # get the quantity of each product
+            # create an instance of Shoe class and
+            # append it to the shoe_list list
+            shoe = Shoe(country, code, product, cost, quantity)
+            shoe_list.append(shoe)
 
 def capture_shoes():
     """Function that creates a new shoes objects by getting five inputs from user. Append this new object into inventory.txt file.
@@ -82,6 +80,7 @@ def capture_shoes():
         None
     """
     #  Inputs thhat will be used to create the new shoe object
+    #  try-except block to get the correct values for cost and quantity of shoes.
     while True:
         try:
             print(f"\n{'REGISTER NEW SHOE':^50s}")
@@ -98,7 +97,7 @@ def capture_shoes():
         except Exception as error:
             print("Error:", error)
         
-    
+    #  Create new shoe object that will be appended on the inventory.txt file.
     new_shoe_object = Shoe(
         country_of_shoe_input, 
         code_of_shoe_input, 
@@ -107,23 +106,19 @@ def capture_shoes():
         quantity_of_shoe_input
     )
 
+    #  try-except-else block to check if the file whether is correct or not.
     try:
         with open("inventory.txt", "a") as afile:
             afile.write(f"\n{new_shoe_object.country},{new_shoe_object.code},{new_shoe_object.product},{new_shoe_object.cost},{new_shoe_object.quantity}")
-    except FileNotFoundError:
-        print("Error: file not found!")
-
-    print(f"\n{'-' * 50}")
-    print(f"{'NEW SHOE REGISTERED!':^50s}\n")
-
-    '''
-    LOGIC IS PRETTY MUCH DONE - NEED TO REVISE ERROR HANDLING AND OUTPUT FORMATTING!!!
-    '''
+    except FileNotFoundError as error:
+        print("ERROR:", error)
+    else:
+        print(f"\n{'-' * 50}")
+        print(f"{'NEW SHOE REGISTERED!':^50s}\n")
 
 def view_all():
-    """Simple functoion that print out all shoes' contents inside inventore.txt file according to its __str__ magic function."""
+    """Simple function that print out all shoes' contents inside inventore.txt file according to its __str__ magic function."""
     #try:
-    read_shoes_data()  #  Initialize shoe_list.
     if read_shoes_data():
         print(f"\n{'LIST OF ALL SHOES AVAILABLES':^37s}")
         print("")
@@ -261,6 +256,13 @@ This menu should be inside the while loop. Be creative!
 #  Menu that only will stop after user press button 7.
 while True:
     try:
+        read_shoes_data()  #  Initialize shoe_list list.
+    
+    except FileNotFoundError as error:
+        print("ERROR:", error)
+        break
+    
+    else:
         print(f"{'-' * 60}")
         menu = int(input("""Please choose one of the options below:
 [1] To view all shoe in stock
@@ -309,7 +311,5 @@ while True:
                 print("Error:", error)
         else:
             print("\nInvalid Option! \nPlease, choose an option between 1 - 7.\n")
-    except TypeError and ValueError:
-        print("\nInvalid Option! \nPlease, choose an option between 1 - 7.\n")
 
 """PROGRAM IS WORKING! NEED TO COMMENT AND FORMAT UNDER PEP-8 STANDARD!!!!!!!!"""
