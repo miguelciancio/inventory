@@ -239,20 +239,29 @@ def re_stock():
                 pass
 
 def search_shoe(code):
-    """Simple function that return the shoe object according to its unique code number."""
-    read_shoes_data()  #  Initialize shoe_list.
-    is_shoe_code = False
+    """Simple function that return the shoe object according to its unique code number.
+    
+    Attribute
+    ---------
+        code : str
+            Unique code number of the item shoe.
+    
+    Return
+    ------
+        shoe : obj
+            shoe object from the shoe_list list.
+        f-string message : str
+            error message that says the code was not found in the shoe_list list.
+    """
+    is_shoe_code = False  #  Control variable to determine whether the code was found in the shoe_list list or not.  
     for shoe in shoe_list:
         if code == shoe.code:  #  Get the shoe according to its unique code.
             is_shoe_code = True
             return shoe  #  Return the shoe object.
     
+    #  Return error message if code is not in the shoe_list list.
     if not is_shoe_code:
         return (f"\nError: {code} not found! \nPlease, check to see if you entered the correct code!")
-
-    '''
-    LOGIC IS PRETTY MUCH DONE! NEED TO REVISA ERROR HANDLING!
-    '''
 
 def value_per_item():
     read_shoes_data()
